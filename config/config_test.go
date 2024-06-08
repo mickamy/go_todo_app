@@ -1,19 +1,20 @@
 package config
 
 import (
+	"strconv"
 	"testing"
 )
 
 func TestNew(t *testing.T) {
-	wantPort := "3333"
-	t.Setenv("PORT", wantPort)
+	wantPort := 3333
+	t.Setenv("PORT", strconv.Itoa(wantPort))
 
 	got, err := New()
 	if err != nil {
 		t.Fatalf("cannot create new config: %v", err)
 	}
 	if got.Port != wantPort {
-		t.Errorf("got port %s, want %s", got.Port, wantPort)
+		t.Errorf("got port %d, want %d", got.Port, wantPort)
 	}
 	wantEnv := "dev"
 	if got.Env != wantEnv {
