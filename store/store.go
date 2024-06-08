@@ -2,6 +2,7 @@ package store
 
 import (
 	"errors"
+	"sort"
 
 	"github.com/mickamy/go_todo_app/entity"
 )
@@ -17,17 +18,22 @@ type TaskStore struct {
 	Tasks  map[entity.TaskID]*entity.Task
 }
 
-func (s *TaskStore) Add(t *entity.Task) (entity.TaskID, error) {
-	s.LastID++
-	t.ID = s.LastID
-	s.Tasks[t.ID] = t
+func (ts *TaskStore) Add(t *entity.Task) (entity.TaskID, error) {
+	ts.LastID++
+	t.ID = ts.LastID
+	ts.Tasks[t.ID] = t
 	return t.ID, nil
 }
 
-func (s *TaskStore) All() entity.Tasks {
-	tasks := make([]*entity.Task, 0, len(s.Tasks))
-	for i, task := range s.Tasks {
-		tasks[i-1] = task
+func (ts *TaskStore) All() entity.Tasks {
+	tasks := make([]*entity.Task, 0, len(ts.Tasks))
+	for _, task := range ts.Tasks {
+		tasks = append(tasks, task)
 	}
+
+	sort.Slice(tasks, func(i, j int) bool {
+		return tasks[i].ID < tasks[j].ID
+	})
+
 	return tasks
 }
