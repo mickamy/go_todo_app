@@ -22,12 +22,12 @@ func TestListTask(t *testing.T) {
 	}{
 		"ok": {
 			tasks: []*entity.Task{
-				1: {
+				{
 					ID:     1,
 					Title:  "test1",
 					Status: entity.TaskStatusTodo,
 				},
-				2: {
+				{
 					ID:     2,
 					Title:  "test2",
 					Status: entity.TaskStatusDone,
@@ -35,14 +35,14 @@ func TestListTask(t *testing.T) {
 			},
 			want: want{
 				status:  http.StatusOK,
-				rspFile: "testdata/list_task/ok_rsp.json.golden",
+				rspFile: "testdata/list_task/ok_res.golden.json",
 			},
 		},
 		"empty": {
 			tasks: []*entity.Task{},
 			want: want{
 				status:  http.StatusOK,
-				rspFile: "testdata/list_task/empty_rsp.json.golden",
+				rspFile: "testdata/list_task/empty_res.golden.json",
 			},
 		},
 	}
@@ -59,7 +59,7 @@ func TestListTask(t *testing.T) {
 				if tt.tasks != nil {
 					return tt.tasks, nil
 				}
-				return nil, errors.New("erro from mock")
+				return nil, errors.New("error from mock")
 			}
 			sut := ListTask{Service: moq}
 			sut.ServeHTTP(w, r)

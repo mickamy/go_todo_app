@@ -1,6 +1,7 @@
 package handler
 
 import (
+	"fmt"
 	"net/http"
 
 	"github.com/mickamy/go_todo_app/entity"
@@ -25,6 +26,9 @@ func (lt *ListTask) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	}
 	res := []task{}
 	for _, t := range tasks {
+		fmt.Println("==================")
+		fmt.Println(t)
+		fmt.Println("==================")
 		res = append(res, task{
 			ID:     t.ID,
 			Title:  t.Title,
