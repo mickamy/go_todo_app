@@ -8,6 +8,8 @@ import (
 	"github.com/google/go-cmp/cmp"
 	"github.com/jmoiron/sqlx"
 
+	_ "github.com/go-sql-driver/mysql"
+
 	"github.com/mickamy/go_todo_app/clock"
 	"github.com/mickamy/go_todo_app/entity"
 	"github.com/mickamy/go_todo_app/testutil"
