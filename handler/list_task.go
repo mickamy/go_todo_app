@@ -4,11 +4,10 @@ import (
 	"net/http"
 
 	"github.com/mickamy/go_todo_app/entity"
-	"github.com/mickamy/go_todo_app/store"
 )
 
 type ListTask struct {
-	Store *store.TaskStore
+	Service ListTasksService
 }
 
 type task struct {
@@ -19,7 +18,11 @@ type task struct {
 
 func (lt *ListTask) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	ctx := r.Context()
-	tasks := lt.Store.All()
+	tasks, err := lt.Service.ListTasks(ctx)
+	if err != nil {
+		RespondJSON(ctx, w, &ErrResponse{Message: err.Error()}, http.StatusInternalServerError)
+		return
+	}
 	res := []task{}
 	for _, t := range tasks {
 		res = append(res, task{
