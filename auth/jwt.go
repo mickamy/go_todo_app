@@ -35,7 +35,7 @@ type Store interface {
 }
 
 func NewJWTer(s Store, c clock.Clocker) (*JWTer, error) {
-	j := &JWTer{Store: s}
+	j := &JWTer{Store: s, Clocker: c}
 	privkey, err := parse(rawPrivKey)
 	if err != nil {
 		return nil, fmt.Errorf("failed to parse private key: %w", err)
